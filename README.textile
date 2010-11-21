@@ -1,0 +1,4 @@
+h1. This is a MongoDB plugin for Spring Insight
+
+Spring Insight runs in the SpringSource tc Server. See http://www.springsource.org/insight.
+
