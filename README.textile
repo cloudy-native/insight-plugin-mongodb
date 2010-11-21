@@ -19,9 +19,9 @@ mvn clean package
 </code>
 </pre>
 
-You'll need to have tc Server Developer Edition installed. Let's call the location of that <tcServer>.
+You'll need to have tc Server Developer Edition installed. Let's call the location of that <code><tcServer></code>.
 
-Now copy the plugin jar to the right place under <tcServer>.
+Now copy the plugin jar to the right place under <code><tcServer></code>.
 
 <pre>
 <code>
