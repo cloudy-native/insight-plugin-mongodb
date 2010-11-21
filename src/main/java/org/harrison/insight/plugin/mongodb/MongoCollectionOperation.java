@@ -1,8 +1,5 @@
 package org.harrison.insight.plugin.mongodb;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.springsource.insight.intercept.operation.BasicOperation;
 import com.springsource.insight.intercept.operation.OperationType;
 import com.springsource.insight.intercept.operation.SourceCodeLocation;
@@ -18,25 +15,35 @@ public class MongoCollectionOperation extends BasicOperation {
     public static final OperationType TYPE = OperationType.valueOf(NAME);
 
     private final String method;
-    private final Object[] args;
+    private final String signature;
+    private final String collection;
 
     public MongoCollectionOperation(final SourceCodeLocation scl,
-	    final String method, final Object[] args) {
+	    final String method, final String signature, final String collection) {
 	super(scl);
 
 	this.method = method;
-	this.args = new Object[] { "???" };
+	this.signature = signature;
+	this.collection = collection;
     }
 
     public String getLabel() {
-	return method + " -> " + getReturnValue();
+	return "MongoDB: " + collection + "." + method + "()";
     }
 
     public OperationType getType() {
 	return TYPE;
     }
 
-    public List<?> getArgs() {
-	return Arrays.asList(args);
+    public String getMethod() {
+	return method;
+    }
+
+    public String getSignature() {
+	return signature;
+    }
+
+    public String getCollection() {
+	return collection;
     }
 }
