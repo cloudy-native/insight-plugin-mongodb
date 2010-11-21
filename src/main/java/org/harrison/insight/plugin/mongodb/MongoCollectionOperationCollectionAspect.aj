@@ -1,9 +1,11 @@
 package org.harrison.insight.plugin.mongodb;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
+import org.bson.types.ObjectId;
 
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
@@ -84,7 +86,8 @@ public aspect MongoCollectionOperationCollectionAspect extends
 	final Signature signature = joinPoint.getSignature();
 	final DBCollection collection = (DBCollection) joinPoint.getThis();
 
-	return new MongoCollectionOperation(getSourceCodeLocation(joinPoint), signature.getName(),
+	return new MongoCollectionOperation(getSourceCodeLocation(joinPoint),
+		ArgUtils.toString(joinPoint.getArgs()), signature.getName(),
 		signature.toShortString(), collection.getFullName());
     }
 }
