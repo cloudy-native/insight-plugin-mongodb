@@ -6,11 +6,13 @@ h2. What does it do?
 
 It instruments calls to MongoDB from the Java driver. Typical calls on the DBCollection class are traced, as are the DB.command() calls that are not covered by these. 
 
-Some attempt is made to decode parameters and return values, although it's not very good.
+The DBCursor.next() call is traced but the information for each call is limited. For example, it does not provide the corresponding DBCollection (yet).
+
+Some attempt is made to decode parameters and return values for common and MongoDB types we know about.
 
 h2. Installing the plugin
 
-Pull the code: <code>git clone git://github.com/NogbadTheBad/insight-plugin-mongodb.git</code>
+Get the code: <code>git clone git://github.com/NogbadTheBad/insight-plugin-mongodb.git</code>
 
 Now build it:
 
@@ -42,9 +44,11 @@ Have fun! And let me know what doesn't work well.
 
 h2. Known issues
 
-# Morphia support
-# Argument decoding is weak
-# The collection name is not available from DBCursor, so we can't see which collection we're calling next() on.
+# The collection name is not available from DBCursor, so we can't see which collection we're calling next() on. This is going to be simply a matter of coercing DBCursor to give up a private instance field for which there is not accessor. (I'm sure I read somewhere how to do that.)
+
+h2. Rejected enhancements
+
+# I thought that Morpia support belonged here at some point. But that's less interesting now that GORM support for MongoDB is provided by a Grails Datastore and not by a contributed plugin (gorm-mongodb) that uses Morphia. YMMV, in which case feel free to add it.
 
 h2. Contact
 
