@@ -1,11 +1,9 @@
 package org.harrison.insight.plugin.mongodb;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
-import org.bson.types.ObjectId;
 
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
@@ -64,7 +62,7 @@ public aspect MongoCollectionOperationCollectionAspect extends
      * to cull subsequent calls.
      */
     public pointcut collectionPoint() 
-: 
+    : 
     (insertExecute() && !cflowbelow(insertExecute())) ||
     (updateExecute() && !cflowbelow(updateExecute())) ||
     (removeExecute() && !cflowbelow(removeExecute())) ||
@@ -78,8 +76,7 @@ public aspect MongoCollectionOperationCollectionAspect extends
     (groupExecute() && !cflowbelow(groupExecute())) ||
     (distinctExecute() && !cflowbelow(distinctExecute())) ||
     (mapReduceExecute() && !cflowbelow(mapReduceExecute())) ||
-    (dropIndexExecute() && !cflowbelow(dropIndexExecute()))
-;
+    (dropIndexExecute() && !cflowbelow(dropIndexExecute()));
 
     @Override
     protected Operation createOperation(final JoinPoint joinPoint) {

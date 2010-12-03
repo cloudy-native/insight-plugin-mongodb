@@ -11,7 +11,7 @@ import com.springsource.insight.intercept.operation.SourceCodeLocation;
  * 
  * @author stephen harrison
  */
-public class MongoDbOperation extends BasicOperation {
+public class MongoDbOperation extends MongoBasicOperation {
     public static final String NAME = "mongo_db_operation";
     public static final OperationType TYPE = OperationType.valueOf(NAME);
 

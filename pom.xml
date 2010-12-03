@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.harrison</groupId>
 	<artifactId>insight-plugin-mongodb</artifactId>
-	<version>0.1</version>
+	<version>0.2</version>
 	<name>MongoDB Insight Plugin</name>
 	<packaging>jar</packaging>
 

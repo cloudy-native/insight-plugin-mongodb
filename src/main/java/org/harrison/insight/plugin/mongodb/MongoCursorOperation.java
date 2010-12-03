@@ -10,12 +10,21 @@ import com.springsource.insight.intercept.operation.SourceCodeLocation;
  * 
  * @author stephen harrison
  */
-public class MongoCursorOperation extends BasicOperation {
+public class MongoCursorOperation extends MongoBasicOperation {
     public static final String NAME = "mongo_cursor_operation";
     public static final OperationType TYPE = OperationType.valueOf(NAME);
 
-    public MongoCursorOperation(final SourceCodeLocation scl) {
+    private final String keysWanted;
+    private final String query;
+    private final String collection;
+
+    public MongoCursorOperation(final SourceCodeLocation scl,
+	    final String keysWanted, final String query) {
 	super(scl);
+
+	this.keysWanted = keysWanted;
+	this.query = query;
+	this.collection = "???";
     }
 
     public String getLabel() {
@@ -24,5 +33,17 @@ public class MongoCursorOperation extends BasicOperation {
 
     public OperationType getType() {
 	return TYPE;
+    }
+
+    public String getKeysWanted() {
+	return keysWanted;
+    }
+
+    public String getQuery() {
+	return query;
+    }
+
+    public String getCollection() {
+	return collection;
     }
 }

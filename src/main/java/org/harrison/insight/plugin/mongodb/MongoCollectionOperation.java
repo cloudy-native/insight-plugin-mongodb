@@ -12,7 +12,7 @@ import com.springsource.insight.intercept.operation.SourceCodeLocation;
  * 
  * @author stephen harrison
  */
-public class MongoCollectionOperation extends BasicOperation {
+public class MongoCollectionOperation extends MongoBasicOperation {
     public static final String NAME = "mongo_collection_operation";
     public static final OperationType TYPE = OperationType.valueOf(NAME);
 
@@ -20,6 +20,7 @@ public class MongoCollectionOperation extends BasicOperation {
     private final String method;
     private final String signature;
     private final String collection;
+    private String returnValueAsString;
 
     public MongoCollectionOperation(final SourceCodeLocation scl,
 	    final List<String> args, final String method,

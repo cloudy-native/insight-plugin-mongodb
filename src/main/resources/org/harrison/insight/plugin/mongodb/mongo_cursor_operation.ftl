@@ -1,7 +1,7 @@
 <#ftl strip_whitespace=true>
 <#import "/insight-1.0.ftl" as insight />
 
-<@insight.group label="MongoDB DBCursor">
+<@insight.group label="DBCursor">
     <@insight.entry name="Collection">
     	<em>unknown</em>
     </@insight.entry>
