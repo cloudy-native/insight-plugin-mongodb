@@ -1,5 +1,6 @@
 package org.harrison.insight.plugin.mongodb;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.aspectj.lang.JoinPoint;
@@ -15,68 +16,45 @@ import com.springsource.insight.intercept.operation.Operation;
 public aspect MongoCollectionOperationCollectionAspect extends
 	AbstractOperationCollectionAspect {
 
-    public pointcut insertExecute() 
-    : execution(WriteResult DBCollection.insert(..));
+    public pointcut insertExecute(): execution(WriteResult DBCollection.insert(..));
 
-    public pointcut updateExecute() 
-    : execution(WriteResult DBCollection.update(..));
+    public pointcut updateExecute(): execution(WriteResult DBCollection.update(..));
 
-    public pointcut removeExecute() 
-    : execution(WriteResult DBCollection.remove(..));
+    public pointcut removeExecute(): execution(WriteResult DBCollection.remove(..));
 
-    public pointcut findExecute() 
-    : execution(com.mongodb.DBCursor DBCollection.find(..));
+    public pointcut findExecute(): execution(com.mongodb.DBCursor DBCollection.find(..));
 
-    public pointcut createIndexExecute() 
-    : execution(void DBCollection.createIndex(..));
+    public pointcut createIndexExecute(): execution(void DBCollection.createIndex(..));
 
-    public pointcut findOneExecute() 
-    : execution(DBObject DBCollection.findOne(..));
+    public pointcut findOneExecute(): execution(DBObject DBCollection.findOne(..));
 
-    public pointcut findAndModifyExecute() 
-    : execution(DBObject DBCollection.findAndModify(..));
+    public pointcut findAndModifyExecute(): execution(DBObject DBCollection.findAndModify(..));
 
-    public pointcut ensureIndexExecute() 
-    : execution(void DBCollection.ensureIndex(..));
+    public pointcut ensureIndexExecute(): execution(void DBCollection.ensureIndex(..));
 
-    public pointcut dropExecute() 
-    : execution(void DBCollection.drop());
+    public pointcut dropExecute(): execution(void DBCollection.drop());
 
-    public pointcut getCountExecute() 
-    : execution(long DBCollection.getCount(..));
+    public pointcut getCountExecute(): execution(long DBCollection.getCount(..));
 
-    public pointcut groupExecute() 
-    : execution(DBObject DBCollection.group());
+    public pointcut groupExecute(): execution(DBObject DBCollection.group());
 
-    public pointcut distinctExecute() 
-    : execution(List DBCollection.distinct(..));
+    public pointcut distinctExecute(): execution(List DBCollection.distinct(..));
 
-    public pointcut mapReduceExecute() 
-    : execution(MapReduceOutput DBCollection.mapReduce(..));
+    public pointcut mapReduceExecute(): execution(MapReduceOutput DBCollection.mapReduce(..));
 
-    public pointcut dropIndexExecute() 
-    : execution(void DBCollection.dropIndex(..));
+    public pointcut dropIndexExecute(): execution(void DBCollection.dropIndex(..));
 
-    /**
-     * Many of the MongoDB Java driver methods are chained, so we use cflowbelow
-     * to cull subsequent calls.
+    public pointcut collectionPoint():
+	insertExecute() && !cflowbelow(insertExecute())
+	;
+
+    /*
+     * insertExecute() || updateExecute() || removeExecute() || findExecute() ||
+     * findOneExecute() || createIndexExecute() || findAndModifyExecute() ||
+     * ensureIndexExecute() || dropExecute() || getCountExecute() ||
+     * groupExecute() || distinctExecute() || mapReduceExecute() ||
+     * dropIndexExecute() ;
      */
-    public pointcut collectionPoint() 
-    : 
-    (insertExecute() && !cflowbelow(insertExecute())) ||
-    (updateExecute() && !cflowbelow(updateExecute())) ||
-    (removeExecute() && !cflowbelow(removeExecute())) ||
-    (findExecute() && !cflowbelow(findExecute())) ||
-    (createIndexExecute() && !cflowbelow(createIndexExecute())) ||
-    (findOneExecute() && !cflowbelow(findOneExecute())) ||
-    (findAndModifyExecute() && !cflowbelow(findAndModifyExecute())) ||
-    (ensureIndexExecute() && !cflowbelow(ensureIndexExecute())) ||
-    (dropExecute() && !cflowbelow(dropExecute())) ||
-    (getCountExecute() && !cflowbelow(getCountExecute())) ||
-    (groupExecute() && !cflowbelow(groupExecute())) ||
-    (distinctExecute() && !cflowbelow(distinctExecute())) ||
-    (mapReduceExecute() && !cflowbelow(mapReduceExecute())) ||
-    (dropIndexExecute() && !cflowbelow(dropIndexExecute()));
 
     @Override
     protected Operation createOperation(final JoinPoint joinPoint) {
@@ -84,7 +62,10 @@ public aspect MongoCollectionOperationCollectionAspect extends
 	final DBCollection collection = (DBCollection) joinPoint.getThis();
 
 	return new MongoCollectionOperation(getSourceCodeLocation(joinPoint),
-		ArgUtils.toString(joinPoint.getArgs()), signature.getName(),
+		Arrays.asList("one", "two", "three"), signature.getName(),
 		signature.toShortString(), collection.getFullName());
+	// return new MongoCollectionOperation(getSourceCodeLocation(joinPoint),
+	// ArgUtils.toString(joinPoint.getArgs()), signature.getName(),
+	// signature.toShortString(), collection.getFullName());
     }
 }

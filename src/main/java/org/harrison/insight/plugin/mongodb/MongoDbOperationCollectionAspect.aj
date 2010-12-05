@@ -11,17 +11,7 @@ import com.springsource.insight.intercept.operation.Operation;
 public aspect MongoDbOperationCollectionAspect extends
 	AbstractOperationCollectionAspect {
 
-    public pointcut commandExecute() 
-    : execution(CommandResult DB.command(..));
-
-    /**
-     * Many of the MongoDB Java driver methods are chained, so we use cflowbelow
-     * to cull subsequent calls.
-     */
-    public pointcut collectionPoint() 
-: 
-    commandExecute()
-;
+    public pointcut collectionPoint(): execution(CommandResult DB.command(..));
 
     @Override
     protected Operation createOperation(final JoinPoint joinPoint) {

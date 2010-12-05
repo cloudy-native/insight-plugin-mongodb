@@ -19,12 +19,12 @@ public class MongoCursorOperation extends MongoBasicOperation {
     private final String collection;
 
     public MongoCursorOperation(final SourceCodeLocation scl,
-	    final String keysWanted, final String query) {
+	    final String keysWanted, final String query, final String collection) {
 	super(scl);
 
 	this.keysWanted = keysWanted;
 	this.query = query;
-	this.collection = "???";
+	this.collection = collection;
     }
 
     public String getLabel() {

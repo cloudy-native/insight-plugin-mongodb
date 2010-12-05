@@ -10,12 +10,12 @@ import com.springsource.insight.intercept.operation.SourceCodeLocation;
  * @author stephen harrison
  */
 public abstract class MongoBasicOperation extends BasicOperation {
-    private String returnValueAsString;
+    private Object rawReturnValue;
 
     public MongoBasicOperation(final SourceCodeLocation scl) {
 	super(scl);
     }
-    
+
     /**
      * A version of this method that knows about MongoDB types
      */
@@ -23,11 +23,12 @@ public abstract class MongoBasicOperation extends BasicOperation {
     public void setReturnValue(final Object returnValue) {
 	super.setReturnValue(returnValue);
 
-	returnValueAsString = ArgUtils.toString(returnValue);
+	rawReturnValue = returnValue;
     }
 
     @Override
     public String getReturnValue() {
-	return returnValueAsString;
+	return "xyz";
+	// return ArgUtils.toString(rawReturnValue);
     }
 }

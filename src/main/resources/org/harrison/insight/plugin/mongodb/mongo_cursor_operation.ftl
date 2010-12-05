@@ -3,7 +3,13 @@
 
 <@insight.group label="DBCursor">
     <@insight.entry name="Collection">
-    	<em>unknown</em>
+    	${operation.collection?html}
+    </@insight.entry>
+    <@insight.entry name="Query">
+    	${operation.query?html}
+    </@insight.entry>
+    <@insight.entry name="Keys Wanted">
+    	${operation.keysWanted?html}
     </@insight.entry>
     <@insight.entry name="Return">
     	${operation.returnValue?html}

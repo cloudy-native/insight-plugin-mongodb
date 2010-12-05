@@ -20,7 +20,6 @@ public class MongoCollectionOperation extends MongoBasicOperation {
     private final String method;
     private final String signature;
     private final String collection;
-    private String returnValueAsString;
 
     public MongoCollectionOperation(final SourceCodeLocation scl,
 	    final List<String> args, final String method,
