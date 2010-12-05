@@ -10,7 +10,7 @@ import com.springsource.insight.intercept.operation.SourceCodeLocation;
  * @author stephen harrison
  */
 public abstract class MongoBasicOperation extends BasicOperation {
-    private Object rawReturnValue;
+    // private Object rawReturnValue;
 
     public MongoBasicOperation(final SourceCodeLocation scl) {
 	super(scl);
@@ -19,16 +19,16 @@ public abstract class MongoBasicOperation extends BasicOperation {
     /**
      * A version of this method that knows about MongoDB types
      */
-    @Override
-    public void setReturnValue(final Object returnValue) {
-	super.setReturnValue(returnValue);
+    // @Override
+    // public void setReturnValue(final Object returnValue) {
+    // super.setReturnValue(returnValue);
+    //
+    // rawReturnValue = returnValue;
+    // }
 
-	rawReturnValue = returnValue;
-    }
-
-    @Override
-    public String getReturnValue() {
-	return "xyz";
-	// return ArgUtils.toString(rawReturnValue);
-    }
+    // @Override
+    // public String getReturnValue() {
+    // return "xyz";
+    // // return ArgUtils.toString(rawReturnValue);
+    // }
 }

@@ -142,9 +142,9 @@ public class ArgUtils {
 
     /**
      * Convert an {@link Object}[] to a {@link String}. Don't convert more than
-     * MAX_ARGS arguments and don't make it more than about maxLength long.
+     * MAX_ARGS arguments and don't make it more than roughly maxLength long.
      * 
-     * Append ellipses to any argument we truncate, or to the whole array cif
+     * Append ellipses to any argument we truncate, or to the whole array if
      * it's too long.
      * 
      * @param array
@@ -153,8 +153,8 @@ public class ArgUtils {
      */
     public static List<String> toString(final Object[] array,
 	    final int maxLength) {
-	final int maxArgs = Math.min(MAX_ARGS, array.length);
-	final int elementLength = maxLength / Math.min(1, maxArgs);
+	final int nArgs = Math.min(MAX_ARGS, array.length);
+	final int elementLength = maxLength / Math.max(1, nArgs);
 
 	return new ArrayList<String>() {
 	    {
