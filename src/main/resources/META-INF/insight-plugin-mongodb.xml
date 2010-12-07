@@ -4,21 +4,14 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                 http://www.springframework.org/schema/insight-idk http://www.springframework.org/schema/insight-idk/insight-idk-1.0.xsd">
 
-	<insight:plugin name="mongodb" version="0.3"
-		publisher="Stephen Harrison (stephen@harrison.org)" />
+	<insight:plugin name="mongodb" version="0.3" publisher="Stephen Harrison (stephen@harrison.org)" />
 
-	<insight:operation-view operation="mongo_collection_operation"
-		template="org/harrison/insight/plugin/mongodb/mongo_collection_operation.ftl" />
-	<insight:operation-view operation="mongo_cursor_operation"
-		template="org/harrison/insight/plugin/mongodb/mongo_cursor_operation.ftl" />
-	<insight:operation-view operation="mongo_db_operation"
-		template="org/harrison/insight/plugin/mongodb/mongo_db_operation.ftl" />
+	<insight:operation-view operation="mongo_collection_operation" template="org/harrison/insight/plugin/mongodb/mongo_collection_operation.ftl" />
+	<insight:operation-group operation="mongo_collection_operation" group="MongoDB" />
 
-	<insight:operation-group group="MongoDB"
-		operation="mongo_collection_operation" />
-	<insight:operation-group group="MongoDB"
-		operation="mongo_cursor_operation" />
-	<insight:operation-group group="MongoDB"
-		operation="mongo_db_operation" />
+	<insight:operation-view operation="mongo_cursor_operation" template="org/harrison/insight/plugin/mongodb/mongo_cursor_operation.ftl" />
+	<insight:operation-group operation="mongo_cursor_operation" group="MongoDB" />
 
+	<insight:operation-view operation="mongo_db_operation" template="org/harrison/insight/plugin/mongodb/mongo_db_operation.ftl" />
+	<insight:operation-group operation="mongo_db_operation" group="MongoDB" />
 </beans>

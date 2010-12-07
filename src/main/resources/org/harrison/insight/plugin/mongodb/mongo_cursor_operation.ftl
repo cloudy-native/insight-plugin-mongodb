@@ -2,8 +2,11 @@
 <#import "/insight-1.0.ftl" as insight />
 
 <@insight.group label="DBCursor">
-    <@insight.entry name="Collection">
+    <@insight.entry name="On Collection">
     	${operation.collection?html}
+    </@insight.entry>
+    <@insight.entry name="Params" if=operation.args?has_content>
+        <@insight.list type="ordered" collection=operation.args />
     </@insight.entry>
     <@insight.entry name="Query">
     	${operation.query?html}

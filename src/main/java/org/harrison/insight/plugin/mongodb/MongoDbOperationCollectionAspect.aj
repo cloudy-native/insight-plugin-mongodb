@@ -1,7 +1,6 @@
 package org.harrison.insight.plugin.mongodb;
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.Signature;
 
 import com.mongodb.CommandResult;
 import com.mongodb.DB;
@@ -15,10 +14,8 @@ public aspect MongoDbOperationCollectionAspect extends
 
     @Override
     protected Operation createOperation(final JoinPoint joinPoint) {
-	final Signature signature = joinPoint.getSignature();
-
-	return new MongoDbOperation(getSourceCodeLocation(joinPoint),
-		ArgUtils.toString(joinPoint.getArgs()),
-		signature.toShortString());
+	return new MongoDbOperation(getSourceCodeLocation(joinPoint), joinPoint
+		.getSignature().getName(), ArgUtils.toString(joinPoint
+		.getArgs()));
     }
 }

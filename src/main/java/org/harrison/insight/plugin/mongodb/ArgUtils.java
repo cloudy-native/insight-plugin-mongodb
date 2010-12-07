@@ -30,11 +30,6 @@ public class ArgUtils {
     private static final int MAX_STRING_LENGTH = 1000;
 
     /**
-     * In any case, the maximum number of arguments we decode
-     */
-    private static final int MAX_ARGS = 10;
-
-    /**
      * How we show there's more
      */
     private static final String ELLIPSIS = "...";
@@ -113,7 +108,7 @@ public class ArgUtils {
      * variable (STRING_FORM_MAP) in any of the put() calls, which you'd have to
      * if you did it long hand.
      */
-    private static Map<Class<?>, StringForm<? extends Object>> STRING_FORM_MAP = new HashMap<Class<?>, StringForm<? extends Object>>() {
+    private static final Map<Class<?>, StringForm<? extends Object>> STRING_FORM_MAP = new HashMap<Class<?>, StringForm<? extends Object>>() {
 	{
 	    // Wrapper classes
 	    //
@@ -153,17 +148,21 @@ public class ArgUtils {
      */
     public static List<String> toString(final Object[] array,
 	    final int maxLength) {
-	final int nArgs = Math.min(MAX_ARGS, array.length);
-	final int elementLength = maxLength / Math.max(1, nArgs);
-
 	return new ArrayList<String>() {
 	    {
-		for (final Object arg : array) {
-		    add(ArgUtils.toString(arg, elementLength));
-		}
+		int soFar = 0;
 
-		if (array.length > MAX_ARGS) {
-		    add(ELLIPSIS);
+		for (final Object arg : array) {
+		    final String result = ArgUtils.toString(arg, maxLength
+			    - soFar);
+
+		    soFar += result.length();
+
+		    add(result);
+
+		    if (soFar >= maxLength) {
+			break;
+		    }
 		}
 	    }
 	};
@@ -187,7 +186,8 @@ public class ArgUtils {
 	}
 
 	final Class<? extends Object> cls = object.getClass();
-	final StringForm stringForm = STRING_FORM_MAP.get(cls);
+	final StringForm<Object> stringForm = (StringForm<Object>) STRING_FORM_MAP
+		.get(cls);
 
 	if (stringForm != null) {
 	    return trimWithEllipsis(stringForm.stringify(object), maxLength);

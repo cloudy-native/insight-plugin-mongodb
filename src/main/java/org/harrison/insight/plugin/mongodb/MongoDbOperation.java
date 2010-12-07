@@ -16,26 +16,16 @@ public class MongoDbOperation extends MongoBasicOperation {
     public static final OperationType TYPE = OperationType.valueOf(NAME);
 
     private final List<String> args;
-    private final String signature;
 
     public MongoDbOperation(final SourceCodeLocation scl,
-	    final List<String> args, final String signature) {
-	super(scl);
+	    final String method, final List<String> args) {
+	super(scl, method, TYPE);
 
 	this.args = args;
-	this.signature = signature;
     }
 
     public String getLabel() {
-	return "MongoDB: " + signature;
-    }
-
-    public OperationType getType() {
-	return TYPE;
-    }
-
-    public String getSignature() {
-	return signature;
+	return "MongoDB: DB." + getMethod() + "()";
     }
 
     public List<String> getArgs() {

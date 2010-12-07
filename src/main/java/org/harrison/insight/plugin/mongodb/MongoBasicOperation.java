@@ -1,6 +1,7 @@
 package org.harrison.insight.plugin.mongodb;
 
 import com.springsource.insight.intercept.operation.BasicOperation;
+import com.springsource.insight.intercept.operation.OperationType;
 import com.springsource.insight.intercept.operation.SourceCodeLocation;
 
 /**
@@ -10,25 +11,35 @@ import com.springsource.insight.intercept.operation.SourceCodeLocation;
  * @author stephen harrison
  */
 public abstract class MongoBasicOperation extends BasicOperation {
-    // private Object rawReturnValue;
+    private final String method;
+    private final OperationType type;
+    private String returnValueAsString = "???";
 
-    public MongoBasicOperation(final SourceCodeLocation scl) {
+    public MongoBasicOperation(final SourceCodeLocation scl,
+	    final String method, final OperationType type) {
 	super(scl);
+
+	this.method = method;
+	this.type = type;
     }
 
-    /**
-     * A version of this method that knows about MongoDB types
-     */
-    // @Override
-    // public void setReturnValue(final Object returnValue) {
-    // super.setReturnValue(returnValue);
-    //
-    // rawReturnValue = returnValue;
-    // }
+    public String getMethod() {
+	return method;
+    }
 
-    // @Override
-    // public String getReturnValue() {
-    // return "xyz";
-    // // return ArgUtils.toString(rawReturnValue);
-    // }
+    public OperationType getType() {
+	return type;
+    }
+
+    @Override
+    public void setReturnValue(final Object returnValue) {
+	super.setReturnValue(returnValue);
+
+	returnValueAsString = ArgUtils.toString(returnValue);
+    }
+
+    @Override
+    public String getReturnValue() {
+	return returnValueAsString;
+    }
 }

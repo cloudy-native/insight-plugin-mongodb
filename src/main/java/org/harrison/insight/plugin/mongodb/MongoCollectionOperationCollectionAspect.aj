@@ -36,8 +36,6 @@ public aspect MongoCollectionOperationCollectionAspect extends
 
     public pointcut ensureIndexExecute(): execution(void DBCollection.ensureIndex(..));
 
-    public pointcut applyExecute(): execution(Object DBCollection.apply(..));
-
     public pointcut saveExecute(): execution(WriteResult DBCollection.save(..));
 
     public pointcut dropExecute(): execution(void DBCollection.drop());
@@ -62,7 +60,6 @@ public aspect MongoCollectionOperationCollectionAspect extends
       findAndModifyExecute() ||
       createIndexExecute() || 
       ensureIndexExecute() || 
-      applyExecute() ||
       saveExecute() ||
       dropExecute() || 
       getCountExecute() ||
@@ -77,7 +74,7 @@ public aspect MongoCollectionOperationCollectionAspect extends
 	final DBCollection collection = (DBCollection) joinPoint.getThis();
 
 	return new MongoCollectionOperation(getSourceCodeLocation(joinPoint),
-		ArgUtils.toString(joinPoint.getArgs()), signature.getName(),
-		signature.toShortString(), collection.getFullName());
+		signature.getName(), ArgUtils.toString(joinPoint.getArgs()),
+		collection.getFullName());
     }
 }

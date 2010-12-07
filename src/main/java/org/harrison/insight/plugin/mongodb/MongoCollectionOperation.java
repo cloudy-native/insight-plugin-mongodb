@@ -17,35 +17,19 @@ public class MongoCollectionOperation extends MongoBasicOperation {
     public static final OperationType TYPE = OperationType.valueOf(NAME);
 
     private final List<String> args;
-    private final String method;
-    private final String signature;
     private final String collection;
 
     public MongoCollectionOperation(final SourceCodeLocation scl,
-	    final List<String> args, final String method,
-	    final String signature, final String collection) {
-	super(scl);
+	    final String method, final List<String> args,
+	    final String collection) {
+	super(scl, method, TYPE);
 
 	this.args = args;
-	this.method = method;
-	this.signature = signature;
 	this.collection = collection;
     }
 
     public String getLabel() {
-	return "MongoDB: " + collection + "." + method + "()";
-    }
-
-    public OperationType getType() {
-	return TYPE;
-    }
-
-    public String getMethod() {
-	return method;
-    }
-
-    public String getSignature() {
-	return signature;
+	return "MongoDB: " + collection + "." + getMethod() + "()";
     }
 
     public String getCollection() {

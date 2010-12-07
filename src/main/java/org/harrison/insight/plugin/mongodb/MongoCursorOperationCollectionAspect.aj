@@ -1,28 +1,57 @@
 package org.harrison.insight.plugin.mongodb;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.Signature;
 
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 import com.springsource.insight.collection.AbstractOperationCollectionAspect;
 import com.springsource.insight.intercept.operation.Operation;
 
 public aspect MongoCursorOperationCollectionAspect extends
 	AbstractOperationCollectionAspect {
     private static final String UNKNOWN = "?unknown?";
+    private static final List<String> EMPTY_ARGS = new ArrayList<String>();
 
-    public pointcut collectionPoint(): execution(DBObject DBCursor.next());
+    private pointcut nextExecution(): 
+	execution(* DBCursor.next(..));
+
+    private pointcut skipExecution(): 
+	execution(* DBCursor.skip(..));
+
+    private pointcut limitExecution(): 
+	execution(* DBCursor.limit(..));
+
+    private pointcut toArrayExecution(): 
+	execution(* DBCursor.toArray(..));
+
+    private pointcut sortExecution(): 
+	execution(* DBCursor.sort(..));
+    
+    private pointcut batchSizeExecution(): 
+	execution(* DBCursor.batchSize(..));
+    
+    public pointcut collectionPoint(): 
+	(nextExecution() && !cflowbelow(nextExecution())) ||
+	(skipExecution() && !cflowbelow(skipExecution())) ||
+	(limitExecution() && !cflowbelow(limitExecution())) ||
+	(toArrayExecution() && !cflowbelow(toArrayExecution())) ||
+	(sortExecution() && !cflowbelow(sortExecution())) ||
+	(batchSizeExecution() && !cflowbelow(batchSizeExecution()))
+	;
 
     @Override
     protected Operation createOperation(final JoinPoint joinPoint) {
+	final Signature signature = joinPoint.getSignature();
 	final DBCursor cursor = (DBCursor) joinPoint.getTarget();
 
-	if (true || cursor == null) {
+	if (cursor == null) {
 	    return new MongoCursorOperation(getSourceCodeLocation(joinPoint),
-		    UNKNOWN, UNKNOWN, UNKNOWN);
+		    signature.getName(), EMPTY_ARGS, UNKNOWN, UNKNOWN, UNKNOWN);
 	}
 
 	final DBCollection collection = extractCollectionFieldTheUglyWay(cursor);
@@ -30,8 +59,9 @@ public aspect MongoCursorOperationCollectionAspect extends
 		.getFullName();
 
 	return new MongoCursorOperation(getSourceCodeLocation(joinPoint),
-		nullsafeToString(cursor.getKeysWanted()),
-		nullsafeToString(cursor.getQuery()), collectionName);
+		signature.getName(), ArgUtils.toString(joinPoint.getArgs()),
+		ArgUtils.toString(cursor.getKeysWanted()),
+		ArgUtils.toString(cursor.getQuery()), collectionName);
     }
 
     /*
@@ -55,9 +85,5 @@ public aspect MongoCursorOperationCollectionAspect extends
 	} catch (final IllegalAccessException e) {
 	    return null;
 	}
-    }
-
-    private static String nullsafeToString(final Object object) {
-	return object == null ? "null" : object.toString();
     }
 }
