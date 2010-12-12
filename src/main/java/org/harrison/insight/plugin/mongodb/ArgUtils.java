@@ -1,5 +1,7 @@
 package org.harrison.insight.plugin.mongodb;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,7 +41,8 @@ public class ArgUtils {
      */
     private static final Class<?>[] SIMPLE_CLASSES = new Class<?>[] {
 	    String.class, Boolean.class, Byte.class, Character.class,
-	    Short.class, Integer.class, Long.class, Float.class, Double.class };
+	    Short.class, Integer.class, Long.class, Float.class, Double.class,
+	    BigInteger.class, BigDecimal.class };
 
     /**
      * With care, we can treat these MongoDB classes simply too
@@ -72,26 +75,25 @@ public class ArgUtils {
      */
     private static final StringForm<Object> DefaultStringForm = new StringForm<Object>() {
 	public String stringify(final Object object) {
-	    final String string = object.toString();
-
-	    return trimWithEllipsis(string);
+	    return object.toString();
 	}
     };
 
     /**
-     * For a {@link DBCursor}, we get the {@link DBCollection} name (actually
-     * not yet), the query and the keys wanted
+     * For a {@link DBCursor}, we get the {@link DBCollection} name, the query
+     * and the keys wanted
      */
     private static final StringForm<DBCursor> DBCursorStringForm = new StringForm<DBCursor>() {
-	public String stringify(final DBCursor object) {
-	    return "DBCursor(" + "???, " + ArgUtils.toString(object.getQuery())
-		    + ", " + ArgUtils.toString(object.getKeysWanted()) + ")";
+	public String stringify(final DBCursor cursor) {
+	    return "DBCursor(" + MongoUtils.extractCollectionName(cursor)
+		    + ", " + ArgUtils.toString(cursor.getQuery()) + ", "
+		    + ArgUtils.toString(cursor.getKeysWanted()) + ")";
 	}
     };
 
     /**
      * This type is common for inserts. In fact, even a single insert gets
-     * converted to an array of one {@link DBObject}
+     * converted to a {@link DBObject}[]
      */
     private static final StringForm<DBObject[]> DBObjectArrayStringForm = new StringForm<DBObject[]>() {
 	public String stringify(final DBObject[] array) {

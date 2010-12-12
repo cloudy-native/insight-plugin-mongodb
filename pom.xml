@@ -4,16 +4,16 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.harrison</groupId>
 	<artifactId>insight-plugin-mongodb</artifactId>
-	<version>0.3</version>
+	<version>1.0.RELEASE</version>
 	<name>MongoDB Insight Plugin</name>
 	<packaging>jar</packaging>
 
 	<properties>
 		<insight.version>1.0.0.RELEASE</insight.version>
-		<aspectj.version>1.6.9</aspectj.version>
+		<aspectj.version>1.6.10</aspectj.version>
 		<spring.framework.version>3.0.4.RELEASE</spring.framework.version>
-		<junit.version>4.5</junit.version>
-		<mockito.version>1.8.0</mockito.version>
+		<junit.version>4.8.2</junit.version>
+		<mockito.version>1.8.5</mockito.version>
 	</properties>
 
 	<repositories>
@@ -86,13 +86,13 @@
 		<dependency>
 			<groupId>org.freemarker</groupId>
 			<artifactId>freemarker</artifactId>
-			<version>2.3.15</version>
+			<version>2.3.16</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-jcl</artifactId>
-			<version>1.5.5</version>
+			<version>1.6.1</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -110,10 +110,17 @@
 	</dependencies>
 
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>RELEASE</version>
 				<configuration>
 					<downloadSources>true</downloadSources>
 					<downloadJavadocs>true</downloadJavadocs>
@@ -122,6 +129,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>RELEASE</version>
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
@@ -130,6 +138,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>aspectj-maven-plugin</artifactId>
+				<version>RELEASE</version>
 				<executions>
 					<execution>
 						<goals>
@@ -147,7 +156,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.4.3</version>
+				<version>RELEASE</version>
 				<configuration>
 					<argLine>
 						-javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
@@ -157,7 +166,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-deploy-plugin</artifactId>
-				<version>2.4</version>
+				<version>RELEASE</version>
 				<configuration>
 					<skip>true</skip>
 				</configuration>
